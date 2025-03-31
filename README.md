@@ -57,6 +57,6 @@ any precompilation errors.
 
 ## 4. Licensing
 
-The code samples are licensed under the [MIT](../../LICENSE-MIT) license, while
-the materials are made available in the public domain under the
-[CC0 1.0 Universal](../../LICENSE-CC0) license.
+The code samples are licensed under the [MIT](./LICENSE-MIT) license, while the
+materials are made available in the public domain under the
+[CC0 1.0 Universal](./LICENSE-CC0) license.
