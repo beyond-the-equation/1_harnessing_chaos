@@ -1,6 +1,17 @@
 ### A Pluto.jl notebook ###
 # v0.20.5
 
+#> [frontmatter]
+#> source = "https://github.com/beyond-the-equation/1_harnessing_chaos"
+#> title = "Harnessing Chaos"
+#> tags = ["beyond_the_equation", "stem", "chaos", "cryptography"]
+#> date = "2025-04-21"
+#> description = "Turning chaos into something useful."
+#> 
+#>     [[frontmatter.author]]
+#>     name = "Debarchito Nath"
+#>     url = "https://debarchito.is-a.dev"
+
 using Markdown
 using InteractiveUtils
 
@@ -29,12 +40,12 @@ begin
 
     gr()
     date = today()
-    logo_url = "../../../assets/logo_black.svg"
+    logo_url = "https://raw.githubusercontent.com/beyond-the-equation/beyond_the_equation/refs/heads/main/assets/logo_black.svg"
 
     md"""
     # Harnessing Chaos — #1
     #### $(dayname(date)) — $(monthname(date)) $(day(date)), $(year(date)) 
-    $(LocalResource(logo_url, :width => 200, :style => "margin-top: 15px"))
+    $(Resource(logo_url, :width => 200, :style => "margin-top: 15px"))
     """
 end
 
@@ -409,7 +420,7 @@ end
 
 # ╔═╡ bc7ba90d-aab4-4ea1-bfd4-2ea9b6517cff
 md"""
-### ...so what's the takeaway from these e.g.s?
+# ...so what's the takeaway from these e.g.s?
 > "The map is not the territory, and precision is not certainty."\
 > — _**Alfred Korzybski**, philosopher and scientist_
 
@@ -417,6 +428,8 @@ Ultimately, whether a system is **deterministic** or **non-deterministic** in th
 
 **Chaotic systems** serve as a humbling reminder: even in a fully deterministic universe, **prediction breaks down** due to limitations in **measurement**, **computation**, and therefore **precision**.  
 We don’t experience chaos as randomness—but as the **amplification of the unknown**. Maybe one can even go ahead and term this **error evolution** (do not quote me on this!).
+
+Every decimal lost to **foating-point precision** is a world of possibility we never explored—kind of poetic.
 """
 
 # ╔═╡ be718ad9-9051-4b44-ae1d-997d08f2aaa8
@@ -426,7 +439,17 @@ md"""
 """
 
 # ╔═╡ c4b3a22d-e1e6-4740-8ca1-695248b2544a
+md"""
+# ...do you know what these are?
+$(Resource("https://i.kinja-img.com/image/upload/c_fill,h_900,q_60,w_1600/9b374ffb927ba8a7534c125958527896.jpg"))
+"""
 
+# ╔═╡ 9c9438e1-cbe8-4066-9044-d2c0b07df151
+md"""
+# ...and do you know who this is?
+\
+$(Resource("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Cloudflare_Logo.svg/1024px-Cloudflare_Logo.svg.png?20220519022010"))
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -2831,5 +2854,6 @@ version = "1.4.1+2"
 # ╟─bc7ba90d-aab4-4ea1-bfd4-2ea9b6517cff
 # ╟─be718ad9-9051-4b44-ae1d-997d08f2aaa8
 # ╟─c4b3a22d-e1e6-4740-8ca1-695248b2544a
+# ╟─9c9438e1-cbe8-4066-9044-d2c0b07df151
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
