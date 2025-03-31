@@ -19,8 +19,8 @@ This project uses the [just](https://github.com/casey/just) task runner. Using
 **just** is entirely optional but recommended. Tasks can be run using
 `just <task_name>`.
 
-- **default:** Alias for `just --list`. Lists all tasks.
-- **run:** Activates the project, instantiates it and runs **Pluto.jl**.
+- **default:** Alias for `just --list`. List all tasks.
+- **run:** Activate the project, instantiate it and run **Pluto.jl**.
 - **update (up):** Update dependencies.
 - **format (fmt):** Format **Julia** files.
 
