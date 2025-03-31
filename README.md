@@ -35,7 +35,7 @@ All of these tasks are defined in [Justfile](./Justfile).
   (_)     | (_) (_)    |
    _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
   | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.11.3 (2025-01-21)
+  | | |_| | | | (_| |  |  Version 1.11.4 (2025-03-10)
  _/ |\__'_|_|_|\__'_|  |
 |__/                   |
 
