@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.5
+# v0.20.6
 
 #> [frontmatter]
 #> source = "https://github.com/beyond-the-equation/1_harnessing_chaos"
@@ -34,7 +34,7 @@ begin
     using Plots
     using Random
     using Base.Iterators: take
-    using DataStructures: Deque
+    using DataStructures
     using LinearAlgebra
     using OrdinaryDiffEq
 
@@ -83,54 +83,79 @@ md"""
 
 # ╔═╡ 6a211811-b04c-4053-99cb-bf9e3e9f8143
 md"""
-Use *custom velocity*: $(@bind cv CheckBox(default=false)) \
+Use *custom velocity*: $(@bind cv11ai CheckBox(default=false)) \
 *velocity factor* =
-$(@bind vf Scrubbable(0:0.1:2, default=1.0)) time(s).
+$(@bind vf11ai Scrubbable(0:0.1:2, default=1.0)) time(s).
 *custom velocity* =
-$(@bind vc Scrubbable(0:1:40, default=10.0)). \
+$(@bind vc11ai Scrubbable(0:1:40, default=10.0)). \
 *altitude* =
-$(@bind al Scrubbable(0:1:20, default=10.0)).
+$(@bind al11ai Scrubbable(0:1:20, default=10.0)).
 *inclination (z-axis)* =
-$(@bind z Scrubbable(0.1:0.1:1, default=0.1)). \
+$(@bind z11ai Scrubbable(0.1:0.1:1, default=0.1)). \
 *total frames* =
-$(@bind fr Scrubbable(100:10:2000, default=150)).
+$(@bind fr11ai Scrubbable(100:10:2000, default=150)).
 *fps* =
-$(@bind fps Scrubbable(10:10:60, default=30)).
+$(@bind fps11ai Scrubbable(10:10:60, default=30)).
 """
 
 # ╔═╡ 32b5c1c4-4693-4010-b045-a84fe912fed8
 md"""
-Current *velocity*: **$(cv ? vc : vf * sqrt(10.0 * 100.0 / al))** units. \
-Animation *duration*: **$(fr / fps)** seconds.
+Current *velocity*: **$(cv11ai ? vc11ai : vf11ai * sqrt(10.0 * 100.0 / al11ai))** units. \
+Animation *duration*: **$(fr11ai / fps11ai)** seconds.
 """
 
 # ╔═╡ 718c4447-4595-4a00-b4e2-2abf943a44f4
 begin
+    """
+        OrbitSimParams
+
+    Parameters for orbital simulation.
+
+    Fields:
+    - G: Gravitational constant
+    - M: Mass of the central body
+    - dt: Time step for simulation
+    - num_frames: Total number of frames to simulate
+    - altitude: Initial orbital altitude
+    - velocity: Initial orbital velocity
+    - crash_radius: Minimum safe distance from central body
+    - trace_length: Length of orbit trail
+    - inclination: Orbital inclination angle
+    """
     @kwdef struct OrbitSimParams
         G::Float64 = 9.81
         M::Float64 = 100.0
         dt::Float64 = 0.05
-        num_frames::Int = fr
-        altitude::Float64 = al
-        velocity::Float64 = cv ? vc : vf * sqrt(G * M / al)
+        num_frames::Int = fr11ai
+        altitude::Float64 = al11ai
+        velocity::Float64 = cv11ai ? vc11ai : vf11ai * sqrt(G * M / al11ai)
         crash_radius::Float64 = 1.3
         trace_length::Int = 50
-        inclination::Float64 = z
+        inclination::Float64 = z11ai  # Pluto.jl UI variable
     end
 
+    """
+        orbit_dynamics!(du, u, params, t)
+
+    Compute orbital dynamics using Newton's laws of motion.
+    """
     function orbit_dynamics!(du, u, params::OrbitSimParams, t)
         x, y, z, vx, vy, vz = u
         r = sqrt(x^2 + y^2 + z^2)
 
-        du[1] = vx
-        du[2] = vy
-        du[3] = vz
-        du[4] = -params.G * params.M * x / r^3
-        du[5] = -params.G * params.M * y / r^3
-        du[6] = -params.G * params.M * z / r^3
+        # Position derivatives
+        du[1:3] .= (vx, vy, vz)
+
+        # Velocity derivatives (acceleration due to gravity)
+        du[4:6] .= [-params.G * params.M * coord / r^3 for coord in (x, y, z)]
     end
 
-    function simulate_orbit(params::OrbitSimParams)
+    """
+        initialize_orbit(params::OrbitSimParams)
+
+    Set up initial conditions for the orbital simulation.
+    """
+    function initialize_orbit(params::OrbitSimParams)
         u0 = [
             params.altitude,
             0.0,
@@ -140,95 +165,113 @@ begin
             params.velocity * params.inclination,
         ]
         tspan = (0.0, params.num_frames * params.dt)
-        prob = ODEProblem(orbit_dynamics!, u0, tspan, params)
-        sol = solve(prob, Tsit5(), dtmax = params.dt)
-
-        trace_x, trace_y, trace_z = Deque{Float64}(), Deque{Float64}(), Deque{Float64}()
-        crash = false
-        crash_position = nothing
-
-        anim = @animate for i = 1:length(sol.t)
-            if crash
-                x, y, z = crash_position
-            else
-                x, y, z = sol[i][1:3]
-                r = sqrt(x^2 + y^2 + z^2)
-
-                if r <= params.crash_radius
-                    crash = true
-                    crash_position = (x, y, z)
-                end
-            end
-
-            if !crash
-                push!(trace_x, x)
-                push!(trace_y, y)
-                push!(trace_z, z)
-
-                if length(trace_x) > params.trace_length
-                    popfirst!(trace_x)
-                    popfirst!(trace_y)
-                    popfirst!(trace_z)
-                end
-            end
-
-            plot(
-                legend = :topright,
-                xlims = (-20, 20),
-                ylims = (-20, 20),
-                zlims = (-20, 20),
-                aspect_ratio = :equal,
-            )
-
-            if crash
-                scatter!(
-                    [x],
-                    [y],
-                    [z],
-                    markersize = 8,
-                    color = :red,
-                    markerstrokewidth = 0,
-                    label = "Crashed Satellite",
-                )
-            else
-                plot!(
-                    collect(trace_x),
-                    collect(trace_y),
-                    collect(trace_z),
-                    lw = 2,
-                    color = :yellow,
-                    alpha = 0.8,
-                    label = "Orbit",
-                )
-                scatter!(
-                    [x],
-                    [y],
-                    [z],
-                    markersize = 6,
-                    color = :red,
-                    markerstrokewidth = 0,
-                    label = "Satellite",
-                )
-            end
-
-            scatter!(
-                [0],
-                [0],
-                [0],
-                markersize = 15,
-                color = :blue,
-                markerstrokewidth = 0,
-                alpha = 0.8,
-                label = "Planet",
-            )
-            crash && annotate!(x, y, z + 6.0, text("CRASH!", 14, :red, :bold))
-        end
-
-        gif(anim, fps = fps)
+        return ODEProblem(orbit_dynamics!, u0, tspan, params)
     end
 
-    params = OrbitSimParams()
-    simulate_orbit(params)
+    """
+        update_trace!(trace_coords, new_pos, max_length)
+
+    Update the orbital trace with new position coordinates.
+    """
+    function update_trace!(trace_coords, new_pos, max_length)
+        for (trace, pos) in zip(trace_coords, new_pos)
+            push!(trace, pos)
+            length(trace) > max_length && popfirst!(trace)
+        end
+    end
+
+    """
+        create_plot_frame(pos, trace_coords, crash_status; params)
+
+    Create a single frame of the animation.
+    """
+    function create_plot_frame(pos, trace_coords, crash_status; params)
+        plot(
+            legend = :topright,
+            xlims = (-20, 20),
+            ylims = (-20, 20),
+            zlims = (-20, 20),
+            aspect_ratio = :equal,
+        )
+
+        # Plot central body
+        scatter!(
+            [0],
+            [0],
+            [0],
+            markersize = 15,
+            color = :blue,
+            markerstrokewidth = 0,
+            alpha = 0.8,
+            label = "Planet",
+        )
+
+        if crash_status
+            # Plot crashed satellite
+            scatter!(
+                [pos[1]],
+                [pos[2]],
+                [pos[3]],
+                markersize = 8,
+                color = :red,
+                markerstrokewidth = 0,
+                label = "Crashed Satellite",
+            )
+            annotate!(pos[1], pos[2], pos[3] + 6.0, text("CRASH!", 14, :red, :bold))
+        else
+            plot!(
+                collect.(trace_coords)...,
+                lw = 2,
+                color = :yellow,
+                alpha = 0.8,
+                label = "Orbit",
+            )
+            scatter!(
+                [pos[1]],
+                [pos[2]],
+                [pos[3]],
+                markersize = 6,
+                color = :red,
+                markerstrokewidth = 0,
+                label = "Satellite",
+            )
+        end
+    end
+
+    """
+        simulate_orbit(params::OrbitSimParams)
+
+    Main simulation function that creates and returns an animation of the orbital motion.
+    """
+    function simulate_orbit(params::OrbitSimParams)
+        prob = initialize_orbit(params)
+        sol = solve(prob, Tsit5(), dtmax = params.dt)
+
+        trace_coords = (Deque{Float64}(), Deque{Float64}(), Deque{Float64}())
+        crash_status = (crashed = false, position = nothing)
+
+        anim = @animate for i = 1:length(sol.t)
+            current_pos = crash_status.crashed ? crash_status.position : sol[i][1:3]
+
+            if !crash_status.crashed && norm(current_pos) <= params.crash_radius
+                crash_status = (crashed = true, position = current_pos)
+            end
+
+            !crash_status.crashed &&
+                update_trace!(trace_coords, current_pos, params.trace_length)
+
+            create_plot_frame(
+                current_pos,
+                trace_coords,
+                crash_status.crashed;
+                params = params,
+            )
+        end
+
+        return gif(anim, fps = fps11ai)
+    end
+
+    OrbitSimParams() |> simulate_orbit
 end
 
 # ╔═╡ 1fe50bbc-33db-49fc-918f-6473e2861f03
@@ -2827,14 +2870,14 @@ version = "1.4.1+2"
 """
 
 # ╔═╡ Cell order:
-# ╟─0bae573c-e781-11ef-328f-015b83e4d876
+# ╠═0bae573c-e781-11ef-328f-015b83e4d876
 # ╟─cfdaf125-80a7-426f-8199-4a9531d5a3a8
 # ╟─b4681213-2be7-44b6-9560-4da48027d8c2
 # ╟─c0154ddf-95b5-4c46-90e7-2467fcc1a8f8
 # ╟─43f9e1c7-74da-4608-b6c4-b9563850382d
 # ╟─6a211811-b04c-4053-99cb-bf9e3e9f8143
 # ╟─32b5c1c4-4693-4010-b045-a84fe912fed8
-# ╟─718c4447-4595-4a00-b4e2-2abf943a44f4
+# ╠═718c4447-4595-4a00-b4e2-2abf943a44f4
 # ╟─1fe50bbc-33db-49fc-918f-6473e2861f03
 # ╟─c6021cc1-ced8-4157-a834-6067e68fa517
 # ╟─d9539727-f032-4222-882c-6e9268de8cc2
