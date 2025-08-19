@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.6
+# v0.20.16
 
 #> [frontmatter]
 #> source = "https://github.com/beyond-the-equation/1_harnessing_chaos"
@@ -27,9 +27,6 @@ macro bind(def, element)
     #! format: on
 end
 
-# ╔═╡ c58fcc2a-148e-4c1d-8ffb-7ec0717185e5
-using Images, TestImages, FileIO, SHA
-
 # ╔═╡ 0bae573c-e781-11ef-328f-015b83e4d876
 begin
     using Dates
@@ -51,6 +48,9 @@ begin
     $(Resource(logo_url, :width => 200, :style => "margin-top: 15px"))
     """
 end
+
+# ╔═╡ c58fcc2a-148e-4c1d-8ffb-7ec0717185e5
+using Images, TestImages, FileIO, SHA
 
 # ╔═╡ cfdaf125-80a7-426f-8199-4a9531d5a3a8
 md"""

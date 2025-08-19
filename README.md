@@ -5,11 +5,11 @@
 - Another option is to use [juliaup](https://github.com/JuliaLang/juliaup/)
   (recommended), a version multiplexer for **Julia**.
 - If you are using **NixOS**, like me, you might find that **Julia** (mostly
-  **Pkg.jl**) doesn't play nicely. To address this, you could create a custom
-  **FHS** environment specifically for **Julia**, or use a pre-built solution
-  like [scientific-fhs](https://github.com/olynch/scientific-fhs).
-  Alternatively, you can leverage
-  [distrobox](https://github.com/89luca89/distrobox) (recommended) to install
+  **Pkg.jl**) doesn't play nicely. To address this, you can create a custom
+  **FHS** environment specifically for **Julia** ([flake.nix](./flake.nix),
+  recommended), or use a pre-built solution like
+  [scientific-fhs](https://github.com/olynch/scientific-fhs). Alternatively, you
+  can leverage [distrobox](https://github.com/89luca89/distrobox) to install
   **Julia** or **juliaup** from the [AUR](https://aur.archlinux.org) or any
   other repository of your choice .
 
@@ -35,16 +35,15 @@ All of these tasks are defined in [Justfile](./Justfile).
   (_)     | (_) (_)    |
    _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
   | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.11.5 (2025-04-14)
+  | | |_| | | | (_| |  |  Version 1.11.6 (2025-07-09)
  _/ |\__'_|_|_|\__'_|  |
 |__/                   |
 
 julia> # Tap `]` to enter the package manager
 (@v1.11) pkg> activate . # Activate the project
 (HarnessingChaos) pkg> instantiate # Install the dependencies
-(HarnessingChaos) pkg> # Tap `<bksp>` to exit the package manager
-julia> using Pluto
-julia> Pluto.run() # This should open a link in your default browser.
+(HarnessingChaos) pkg> # Tap `<bksp>` or `<backspace>` to exit the package manager
+julia> using Pluto; Pluto.run() # This should open a link in your default browser`
 ```
 
 In the **Pluto.jl UI**, select the
