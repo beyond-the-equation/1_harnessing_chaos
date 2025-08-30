@@ -43,14 +43,14 @@ julia> # Tap `]` to enter the package manager
 (@v1.11) pkg> activate . # Activate the project
 (HarnessingChaos) pkg> instantiate # Install the dependencies
 (HarnessingChaos) pkg> # Tap `<bksp>` or `<backspace>` to exit the package manager
-julia> using Pluto; Pluto.run() # This should open a link in your default browser`
+julia> using Pluto; Pluto.run() # This should open a link in your default browser
 ```
 
 In the **Pluto.jl UI**, select the
-[src/HarnessingChaosPluto.jl](src/HarnessingChaosPluto.jl) notebook to start
+[src/HarnessingChaosPluto.jl](./src/HarnessingChaosPluto.jl) notebook to start
 working with the interactive notebook.
 
-Please note that the [src/HarnessingChaos.jl](src/HarnessingChaos.jl) file is
+Please note that the [src/HarnessingChaos.jl](./src/HarnessingChaos.jl) file is
 intentionally left as an empty module. This is to prevent **Julia** from raising
 any precompilation errors.
 
