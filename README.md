@@ -11,7 +11,7 @@
   [scientific-fhs](https://github.com/olynch/scientific-fhs). Alternatively, you
   can leverage [distrobox](https://github.com/89luca89/distrobox) to install
   **Julia** or **juliaup** from the [AUR](https://aur.archlinux.org) or any
-  other repository of your choice .
+  other repository of your choice.
 
 ## 2. Configured Tasks
 
