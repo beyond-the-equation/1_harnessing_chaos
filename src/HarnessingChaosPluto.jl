@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.16
+# v0.20.18
 
 #> [frontmatter]
 #> source = "https://github.com/beyond-the-equation/1_harnessing_chaos"
@@ -27,6 +27,9 @@ macro bind(def, element)
     #! format: on
 end
 
+# ╔═╡ c58fcc2a-148e-4c1d-8ffb-7ec0717185e5
+using Images, TestImages, FileIO, SHA
+
 # ╔═╡ 0bae573c-e781-11ef-328f-015b83e4d876
 begin
     using Dates
@@ -48,9 +51,6 @@ begin
     $(Resource(logo_url, :width => 200, :style => "margin-top: 15px"))
     """
 end
-
-# ╔═╡ c58fcc2a-148e-4c1d-8ffb-7ec0717185e5
-using Images, TestImages, FileIO, SHA
 
 # ╔═╡ cfdaf125-80a7-426f-8199-4a9531d5a3a8
 md"""
@@ -829,7 +829,7 @@ TestImages = "~1.9.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.5"
+julia_version = "1.11.7"
 manifest_format = "2.0"
 project_hash = "2d2b06a726d11c6da539f5ff15d1664ff2ffec22"
 
