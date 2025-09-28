@@ -1,5 +1,3 @@
-# WARN: Not portable outside NixOS based systems
-# TODO: Make it portable
 {
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   outputs =
@@ -12,10 +10,6 @@
       devShells.${system}.default =
         (pkgs.buildFHSEnv {
           name = "harnessing_chaos";
-          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
-            pkgs.stdenv.cc.cc
-            "/run/opengl-driver"
-          ];
           targetPkgs = pkgs: [
             pkgs.just
             pkgs.julia
