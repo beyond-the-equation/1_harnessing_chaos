@@ -6,10 +6,10 @@
   (recommended), a version multiplexer for **Julia**.
 - If you are using **NixOS**, like me, you might find that **Julia** (mostly
   **Pkg.jl**) doesn't play nicely. To address this, you can create a custom
-  **FHS** environment specifically for **Julia** ([flake.nix](./flake.nix),
-  recommended), or use a pre-built solution like
-  [scientific-fhs](https://github.com/olynch/scientific-fhs). Alternatively, you
-  can leverage [distrobox](https://github.com/89luca89/distrobox) to install
+  **FHS** environment specifically for **Julia**, or use a pre-built solution
+  like [scientific-fhs](https://github.com/olynch/scientific-fhs).
+  Alternatively, you can leverage
+  [distrobox](https://github.com/89luca89/distrobox) (recommended) to install
   **Julia** or **juliaup** from the [AUR](https://aur.archlinux.org) or any
   other repository of your choice.
 
