@@ -1,6 +1,6 @@
 name = "HarnessingChaos"
 uuid = "28c4900a-4950-4990-8e73-e6a6f348ac36"
-authors = ["Debarchito Nath <dev.debarchito.nath@protonmail.com>"]
+authors = ["Debarchito Nath <debarchiton@proton.me>"]
 version = "0.1.0"
 
 [deps]
