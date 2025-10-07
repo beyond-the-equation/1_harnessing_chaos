@@ -21,12 +21,12 @@ This project contains two script files: [run.sh](/run.sh) (for Linux/macOS) and
 - **Linux/macOS users** can execute tasks with `./run.sh [<task>]`.
 - **Windows users** should use `.\Run.ps1 [<task>]`.
 
-The tasks should be run inside the project directory.
+The tasks should be executed inside the project directory.
 
 > [!note]
 >
-> If you encounter an error when running scripts in PowerShell, you may need to
-> adjust the execution policy:
+> If you encounter a permission error when running scripts in PowerShell, you
+> may need to adjust the execution policy:
 >
 > ```pwsh
 > Set-ExecutionPolicy Unrestricted
