@@ -2,19 +2,16 @@
 
 # Activate the project, instantiate it and run Pluto.jl
 run() {
-    echo "  Running [run]"
     julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); using Pluto; Pluto.run();'
 }
 
 # Update dependencies
 update() {
-    echo "  Running [update]"
     julia -e 'using Pkg; Pkg.activate("."); Pkg.update();'
 }
 
 # Format Julia files
 format() {
-    echo "  Running [format]"
     julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); using JuliaFormatter; JuliaFormatter.format(".");'
 }
 

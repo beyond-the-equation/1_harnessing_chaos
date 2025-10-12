@@ -6,19 +6,16 @@ param (
 
 # Activate the project, instantiate it and run Pluto.jl
 function Run {
-    Write-Host "  Running [run]"
     julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); using Pluto; Pluto.run();'
 }
 
 # Update dependencies
 function Update {
-    Write-Host "  Running [update]"
     julia -e 'using Pkg; Pkg.activate("."); Pkg.update();'
 }
 
 # Format Julia files
 function Format {
-    Write-Host "  Running [format]"
     julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); using JuliaFormatter; JuliaFormatter.format(".");'
 }
 
